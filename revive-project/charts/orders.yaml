@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: orders
+  namespace: argocd
+spec:
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: revive
+  source:
+    repoURL: 'https://github.com/DEL-ORG/s6-revive-chart-repo.git'
+    path: helm-chart/orders
+    targetRevision: charts
+    #directory:
+     # recurse: true
+    helm:
+      valueFiles:
+        - values.yaml
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
+    automated:
+      prune: true
+      selfHeal: true
+    prerequisites:
+    - createNamespace: true
