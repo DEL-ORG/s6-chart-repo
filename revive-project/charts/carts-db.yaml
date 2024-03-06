@@ -25,4 +25,4 @@ spec:
       prune: true
       selfHeal: true
     prerequisites:
-    - createNamespace: true
+      - createNamespace: true
