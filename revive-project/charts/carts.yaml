@@ -9,7 +9,7 @@ spec:
     namespace: revive
   source:
     repoURL: 'https://github.com/DEL-ORG/s6-revive-chart-repo.git'
-    path: 
+    paths: 
       - helm-chart/carts
       - helm-chart/carts-db
     targetRevision: charts
