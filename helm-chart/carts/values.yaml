@@ -98,5 +98,9 @@ tolerations: []
 
 affinity: {}
 
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
 label:
   app: "REVIVE"
