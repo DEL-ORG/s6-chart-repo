@@ -5,6 +5,6 @@ argocd proj create revive \
 --src git@github.com:DEL-ORG/s6-revive-chart-repo.git
 sleep 5
 
-#argocd proj patch revive --src git@github.com:DEL-ORG/s6-revive-chart-repo.git
+##argocd proj patch revive --src git@github.com:DEL-ORG/s6-revive-chart-repo.git
 
 kubectl apply -k /home/peterg/Documents/devops-learnninng/s6-classwork/eric-Revive-project-/phase12/phase-12-group/s6-revive-chart-repo/revive-project
