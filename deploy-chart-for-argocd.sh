@@ -1,9 +1,9 @@
-argocd repo add git@github.com:DEL-ORG/s6-revive-chart-repo.git --ssh-private-key-path ~/.ssh/id_rsa
+# argocd repo add git@github.com:DEL-ORG/s6-revive-chart-repo.git --ssh-private-key-path ~/.ssh/id_rsa
 
-argocd proj create revive \
---description "Revive Project" \
---src git@github.com:DEL-ORG/s6-revive-chart-repo.git
-sleep 5
+# argocd proj create revive \
+# --description "Revive Project" \
+# --src git@github.com:DEL-ORG/s6-revive-chart-repo.git
+# sleep 5
 
 ##argocd proj patch revive --src git@github.com:DEL-ORG/s6-revive-chart-repo.git
 
