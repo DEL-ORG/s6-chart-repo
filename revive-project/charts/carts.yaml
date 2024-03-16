@@ -8,7 +8,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: revive
   source:
-    repoURL: 'https://github.com/DEL-ORG/s6-revive-chart-repo.git'
+    repoURL: 'git@github.com:DEL-ORG/s6-revive-chart-repo.git'
     path: helm-chart/carts
     targetRevision: charts
     #directory:
@@ -16,7 +16,7 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-  project: default
+  project: revive
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
