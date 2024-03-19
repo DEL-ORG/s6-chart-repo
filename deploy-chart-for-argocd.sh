@@ -13,7 +13,7 @@ spec:
   source:
     path: revive-project/
     repoURL: 'git@github.com:DEL-ORG/s6-revive-chart-repo.git'
-    targetRevision: develop
+    targetRevision: phase-12-deploy-charts
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
