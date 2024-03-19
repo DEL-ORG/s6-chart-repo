@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: 'git@github.com:DEL-ORG/s6-revive-chart-repo.git'
     path: helm-chart/catalog
-    targetRevision: charts
+    targetRevision: develop
     #directory:
      # recurse: true
     helm:
