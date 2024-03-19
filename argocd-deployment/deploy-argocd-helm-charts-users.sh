@@ -258,21 +258,6 @@ do
     fi
 done
 
-echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-echo "Password update for users completed.***e.g [student@name] ***"
-
-echo "############# Adding Git Repo ###############"
-sleep 3
-argocd repo add git@github.com:DEL-ORG/s6-revive-chart-repo.git --ssh-private-key-path ~/.ssh/id_rsa
-echo "############# Git Repo Added ###############"
-
-echo "############# Creating Project Revive ###############"
-sleep 3
-
-argocd proj create revive -d '*','!kube-system' -s git@github.com:DEL-ORG/s6-revive-chart-repo.git
-
-echo "############# Project Revive Created ###############"
-
 #"DIASBLE THE ADMIN ...."  
 # cat <<EOF | kubectl apply -f -
 
