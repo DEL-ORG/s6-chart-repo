@@ -4,9 +4,6 @@
 #! /bin/bash
 
 
-echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-echo "Password update for users completed.***e.g [student@name] ***"
-
 echo "############# Adding Git Repo ###############"
 sleep 3
 argocd repo add git@github.com:DEL-ORG/s6-revive-chart-repo.git --ssh-private-key-path ~/.ssh/id_rsa

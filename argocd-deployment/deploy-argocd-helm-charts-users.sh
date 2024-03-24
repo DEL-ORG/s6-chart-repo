@@ -23,7 +23,7 @@ helm upgrade -i argocd --namespace argocd \
     --set controller.metrics.enabled=true argo/argo-cd
 
 # Wait for 45 seconds
-sleep 40
+sleep 0
 
 
 
@@ -41,7 +41,7 @@ echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 # Get initial admin password
-argocd_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+init_admin_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 #get the dynamic port
 port=$(kubectl get svc -n argocd -o wide | awk '/argocd-server/ && !/8083/ {gsub(/.*:/, "", $5); gsub(/\/.*/, "", $5); print $5}')
 
@@ -109,7 +109,7 @@ data:
   accounts.perscoba: login
   accounts.anang: login 
   accounts.devopseasylearning: apiKey, login   
-  accounts.phase12: apiKey, login     
+  accounts.phase12: login     
   accounts.phase12.enabled: "true"            
   
   
@@ -140,6 +140,7 @@ data:
     p, role:developers, applications, get, *, allow
 
     p, role:qa, repositories, list, *, allow
+     p, role:qa, repositories, get, *, allow
     p, role:qa, applications, list, *, allow
     
     
@@ -186,7 +187,7 @@ echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 echo "%%%%%%%%%                             VIEW ARDOCD UI                                      %%%%%%%%%%%%%%%"
 echo "%%%%%%%%%           "ArgoCD UI: [Your IP address here]:$port"                             %%%%%%%%%%%%%%%"                                  
-echo "%%%%%%%%%           "Admin Password: $argocd_password"                          %%%%%%%%%%%%%%%"
+echo "%%%%%%%%%           "Admin Password: $init_admin_password"                         %%%%%%%%%%%%%%%"
 echo "%%%%%%%%%           "Admin user: admin"                                      %%%%%%%%%%%%%%"  
 echo "%%%%%%%%%            Example:  "$serverip:$port"                                          %%%%%%%%%%%%%%"         
 echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
@@ -223,7 +224,7 @@ echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ARGOCD_SERVER=$serverip:$port
 echo "$ARGOCD_SERVER"
 ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="$argocd_password"
+ADMIN_PASSWORD="$init_admin_password"
 
 # Login as admin
 argocd login $ARGOCD_SERVER --username $ADMIN_USERNAME --password $ADMIN_PASSWORD --insecure
@@ -258,20 +259,10 @@ do
     fi
 done
 
-#"DIASBLE THE ADMIN ...."  
-# cat <<EOF | kubectl apply -f -
+echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+echo "Password update for users completed.***e.g [student@name] ***"
 
-# #use the data to add or remove  user
 
-# apiVersion: v1
-# kind: ConfigMap
-# metadata:
-#   name: argocd-cm
-#   namespace: argocd
-#   labels:
-#     app.kubernetes.io/name: argocd-cm
-#     app.kubernetes.io/part-of: argocd
-# data:
-#   admin.enabled: "false"
 
-# EOF
+
+
