@@ -5,11 +5,11 @@ if ! helm repo list | grep -q "argo"; then
     helm repo add argo https://argoproj.github.io/argo-helm
 fi
 
-# # Check if the folder argo-cd exists
-# if [ ! -d "argo-cd" ]; then
-#     # If it doesn't exist, pull and untar the helm chart
-#     helm pull --untar argo/argo-cd
-# fi
+ # Check if the folder argo-cd exists
+ if [ ! -d "argo-cd" ]; then
+     # If it doesn't exist, pull and untar the helm chart
+     helm pull --untar argo/argo-cd
+ fi
 
 # Create namespace argocd
 kubectl create namespace argocd
@@ -20,7 +20,7 @@ helm upgrade -i argocd --namespace argocd \
     --set redis.exporter.enabled=true \
     --set redis.metrics.enabled=true \
     --set server.metrics.enabled=true \
-    --set controller.metrics.enabled=true argo/argo-cd
+    --set controller.metrics.enabled=true argo-cd
 
 # Wait for 45 seconds
 sleep 0
