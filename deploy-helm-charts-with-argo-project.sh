@@ -28,7 +28,7 @@ spec:
   # permit applications to deploy to the revive  namespace in any
   # Destination clusters can be identified by 'server', 'name', or both.
   destinations:
-  - namespace: ''
+  - namespace: '*'
     server: '*'
     name: '*'
  
