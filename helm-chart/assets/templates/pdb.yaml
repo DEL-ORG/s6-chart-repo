@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ .Values.label.app }}
 spec:
-  minUnavailable: {{ .Values.podDisruptionBudget }}
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
   selector:
     matchLabels:
        APP: {{ .Values.label.app }}
