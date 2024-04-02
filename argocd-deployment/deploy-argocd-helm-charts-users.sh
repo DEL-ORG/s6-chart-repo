@@ -28,7 +28,7 @@ sleep 10
 
 
 #Patch argocd service
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 
 
 
