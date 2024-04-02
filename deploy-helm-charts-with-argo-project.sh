@@ -63,14 +63,14 @@ spec:
 
 
 
-  roles:
-  # A role which provides read-only access to all applications in the project
-  - name: read-only
-    description: Read-only privileges to revive
-    policies:
-    - p, proj:revive:read-only, applications, get, revive/*, allow
-    groups:
-    - revive
+  # roles:
+  # # A role which provides read-only access to all applications in the project
+  # - name: read-only
+  #   description: Read-only privileges to revive
+  #   policies:
+  #   - p, proj:revive:read-only, applications, get, revive/*, allow
+  #   groups:
+  #   - revive
 
 
 
@@ -93,33 +93,33 @@ spec:
 
 
 
-  # Sync windows restrict when Applications may be synced. https://argo-cd.readthedocs.io/en/stable/user-guide/sync_windows/
-  syncWindows:
-  - kind: allow
-    schedule: '0 14 * * *'
-    duration: 1h
-    applications:
-      - 'revive'
-    namespaces:
-      - revive
-    clusters:
-      - in-cluster
-      - '*'
+  # # Sync windows restrict when Applications may be synced. https://argo-cd.readthedocs.io/en/stable/user-guide/sync_windows/
+  # syncWindows:
+  # - kind: allow
+  #   schedule: '0 14 * * *'
+  #   duration: 1h
+  #   applications:
+  #     - 'revive'
+  #   namespaces:
+  #     - revive
+  #   clusters:
+  #     - in-cluster
+  #     - '*'
 
 
     
-    manualSync: true
-  - kind: deny
-    schedule: '0 20 * * *'
-    duration: 1h
-    namespaces:
-      - default
-  - kind: allow
-    schedule: '0 19 * * *'
-    duration: 1h
-    clusters:
-      - in-cluster
-      - '*'
+  #   manualSync: true
+  # - kind: deny
+  #   schedule: '0 20 * * *'
+  #   duration: 1h
+  #   namespaces:
+  #     - default
+  # - kind: allow
+  #   schedule: '0 19 * * *'
+  #   duration: 1h
+  #   clusters:
+  #     - in-cluster
+  #     - '*'
 
  
  
