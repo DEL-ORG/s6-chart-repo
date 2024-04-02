@@ -23,7 +23,7 @@ helm upgrade -i argocd --namespace argocd \
     --set controller.metrics.enabled=true argo-cd
 
 # Wait for 45 seconds
-sleep 0
+sleep 50
 
 
 
