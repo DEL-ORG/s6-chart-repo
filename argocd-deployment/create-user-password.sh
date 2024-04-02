@@ -1,7 +1,7 @@
 
 
 
-#ARGOCD_SERVER=[your loadbalance address here]
+#ARGOCD_SERVER="192.168.67.2:32302"
 read -p "Enter ARGOCD_SERVER: " ARGOCD_SERVER
 echo "$ARGOCD_SERVER"
 ADMIN_USERNAME="admin"
