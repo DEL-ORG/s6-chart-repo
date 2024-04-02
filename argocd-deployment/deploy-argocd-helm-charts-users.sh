@@ -43,7 +43,7 @@ echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # Get initial admin password
 init_admin_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 #get the dynamic port
-port=$(kubectl get svc -n argocd -o wide | awk '/argocd-server/ && !/8083/ {gsub(/.*:/, "", $5); gsub(/\/.*/, "", $5); print $5}')
+#port=$(kubectl get svc -n argocd -o wide | awk '/argocd-server/ && !/8083/ {gsub(/.*:/, "", $5); gsub(/\/.*/, "", $5); print $5}')
 
 # Check if argocd CLI is installed
 if command -v argocd &>/dev/null; then
@@ -175,7 +175,7 @@ echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # View argocd UI
 #kubectl port-forward service/argocd-server -n argocd 8008:443
-serverip=$(minikube ip)
+#serverip=$(minikube ip)
 
 
 echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
@@ -220,47 +220,47 @@ echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
-#ARGOCD_SERVER=your-ip-address-here:8008
-ARGOCD_SERVER=$serverip:$port
-echo "$ARGOCD_SERVER"
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="$init_admin_password"
+# #ARGOCD_SERVER=your-ip-address-here:8008
+# ARGOCD_SERVER=[your loadbalance address here]
+# echo "$ARGOCD_SERVER"
+# ADMIN_USERNAME="admin"
+# ADMIN_PASSWORD="$init_admin_password"
 
-# Login as admin
-argocd login $ARGOCD_SERVER --username $ADMIN_USERNAME --password $ADMIN_PASSWORD --insecure
+# # Login as admin
+# argocd login $ARGOCD_SERVER --username $ADMIN_USERNAME --password $ADMIN_PASSWORD --insecure
 
-# Read usernames from the file
-usernames_file="user-names.txt"
-users=($(cat "$usernames_file"))
+# # Read usernames from the file
+# usernames_file="user-names.txt"
+# users=($(cat "$usernames_file"))
 
-# Set password for users
-for user in "${users[@]}"
-do
-    # Add a condition to skip updating users based on a certain criteria
-    if [[ "$user" == "user_to_skip" ]]; then
-        echo "Skipping password update for user: $user"
-        continue
-    fi
+# # Set password for users
+# for user in "${users[@]}"
+# do
+#     # Add a condition to skip updating users based on a certain criteria
+#     if [[ "$user" == "user_to_skip" ]]; then
+#         echo "Skipping password update for user: $user"
+#         continue
+#     fi
 
-    # Construct the new password for each user
-    NEW_PASSWORD="student@${user}"
+#     # Construct the new password for each user
+#     NEW_PASSWORD="student@${user}"
 
-    # Update the password for the user
-    argocd account update-password \
-        --account "$user" \
-        --current-password "$ADMIN_PASSWORD" \
-        --new-password "$NEW_PASSWORD"
+#     # Update the password for the user
+#     argocd account update-password \
+#         --account "$user" \
+#         --current-password "$ADMIN_PASSWORD" \
+#         --new-password "$NEW_PASSWORD"
 
-    # Check the exit status of the last command
-    if [ $? -eq 0 ]; then
-        echo "Password updated for user: $user"
-    else
-        echo "Failed to update password for user: $user"
-    fi
-done
+#     # Check the exit status of the last command
+#     if [ $? -eq 0 ]; then
+#         echo "Password updated for user: $user"
+#     else
+#         echo "Failed to update password for user: $user"
+#     fi
+# done
 
-echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-echo "Password update for users completed.***e.g [student@name] ***"
+# echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+# echo "Password update for users completed.***e.g [student@name] ***"
 
 
 
