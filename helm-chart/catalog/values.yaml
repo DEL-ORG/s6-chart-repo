@@ -10,7 +10,8 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "30.1"
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: "ecr-revive"
 nameOverride: ""
 fullnameOverride: ""
 
