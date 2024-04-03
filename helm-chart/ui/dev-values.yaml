@@ -1,3 +1,8 @@
 image:
   repository: 637423375996.dkr.ecr.us-east-1.amazonaws.com/ui
   tag: 42 
+
+imagePullSecrets:
+  - name: "ecr-revive"
+nameOverride: ""
+fullnameOverride: ""
