@@ -8,4 +8,4 @@ spec:
   minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
   selector:
     matchLabels:
-       APP: {{ .Values.label.app }}
+       APP: checkout

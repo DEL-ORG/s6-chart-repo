@@ -11,7 +11,7 @@ spec:
   selector:
     matchLabels:
       {{- include "ui.selectorLabels" . | nindent 6 }}
-      APP: {{ .Values.label.app }}
+      APP: ui
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -20,7 +20,7 @@ spec:
       {{- end }}
       labels:
         {{- include "ui.labels" . | nindent 8 }}
-        APP: {{ .Values.label.app }}
+        APP: ui
 	{{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
