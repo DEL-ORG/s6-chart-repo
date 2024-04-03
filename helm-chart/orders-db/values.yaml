@@ -13,7 +13,8 @@ global:
   ## imagePullSecrets:
   ##   - myRegistryKeySecretName
   ##
-  imagePullSecrets: []
+  imagePullSecrets:
+    - name: "ecr-revive"
   ## @param global.storageClass Global StorageClass for Persistent Volume(s)
   ##
   storageClass: ""

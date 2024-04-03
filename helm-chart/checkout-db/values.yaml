@@ -18,7 +18,8 @@ global:
   ## imagePullSecrets:
   ##   - myRegistryKeySecretName
   ##
-  imagePullSecrets: []
+  imagePullSecrets:
+  - name: "ecr-revive"
   storageClass: ""
   redis:
     password: ""
