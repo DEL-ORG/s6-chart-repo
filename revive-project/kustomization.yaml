@@ -9,7 +9,4 @@ resources:
 - charts/catalog-db.yaml
 - charts/catalog.yaml
 - charts/orders.yaml
-- charts/orders-db.yaml
-- charts/rabbitmq.yaml
-- charts/assets.yaml
 - charts/ui.yaml

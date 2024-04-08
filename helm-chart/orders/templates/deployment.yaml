@@ -5,25 +5,27 @@ metadata:
   labels:
     {{- include "orders.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
+{{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
+{{- end }}
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
   selector:
     matchLabels:
       {{- include "orders.selectorLabels" . | nindent 6 }}
-      APP: {{ .Values.label.app }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- if or .Values.podAnnotations .Values.metrics.enabled }}
       annotations:
-        {{- toYaml . | nindent 8 }}
+        {{- include "orders.podAnnotations" . | nindent 8 }}
+        {{- if and .Values.opentelemetry.enabled .Values.opentelemetry.instrumentation }}
+        instrumentation.opentelemetry.io/inject-sdk: {{ .Values.opentelemetry.instrumentation }}
+        {{- end }}
       {{- end }}
       labels:
-        {{- include "orders.labels" . | nindent 8 }}
-        APP: {{ .Values.label.app }}
-	{{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+        {{- include "orders.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -34,37 +36,47 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          env:
+            - name: JAVA_OPTS
+              value: -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/urandom
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgresql.secret.name }}
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgresql.secret.name }}
+                  key: password
+          envFrom:
+            - secretRef:
+                name: {{ .Values.rabbitmq.secret.name }}
+            - configMapRef:
+                name: {{ include "orders.configMapName" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.repository.orders.image }}:{{ .Values.repository.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          envFrom:
-           - secretRef:
-                name: {{ .Values.app_name }}-secret
-           - configMapRef:
-                name: {{ .Values.app_name }}-configmap
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: 8080
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 45
+            periodSeconds: 3
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
+            - mountPath: /tmp
+              name: tmp-volume
       volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
