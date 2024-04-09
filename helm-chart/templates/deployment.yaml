@@ -1,9 +1,9 @@
-# apiVersion: v1
-# kind: Namespace
-# metadata:
-#   labels:
-#     app.kubernetes.io/created-by: retail-store-sample
-#   name: assets
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/created-by: retail-store-sample
+  name: revive
 # ---
 # apiVersion: v1
 # kind: Namespace
