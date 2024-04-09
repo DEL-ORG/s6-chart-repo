@@ -146,16 +146,22 @@ metadata:
   namespace: argocd
 spec:
   destination:
+    server: 'https://kubernetes.default.svc'
     namespace: revive
-    server: https://kubernetes.default.svc
-  project: revive
   source:
-    path: revive-project/
     repoURL: 'git@github.com:DEL-ORG/s6-revive-chart-repo.git'
+    path: helm-chart
     targetRevision: develop
+    #directory:
+     # recurse: true
+    helm:
+      valueFiles:
+        - dev-values.yaml
+  project: revive
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - Replace=true
     automated:
       prune: true
       selfHeal: true
