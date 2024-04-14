@@ -422,7 +422,7 @@ spec:
         - configMapRef:
             name: assets
         image: "{{ .Values.repository.assets.image }}:{{ .Values.repository.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /health.html
@@ -445,10 +445,8 @@ spec:
             drop:
             - ALL
           readOnlyRootFilesystem: false
-        volumeMounts:
-        - mountPath: /tmp
-          name: tmp-volume
-      securityContext: {}
+      securityContext:
+        fsGroup: 1000
       serviceAccountName: assets
       volumes:
       - emptyDir:
@@ -492,7 +490,7 @@ spec:
         - configMapRef:
             name: carts
         image: "{{ .Values.repository.carts.image }}:{{ .Values.repository.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
@@ -554,12 +552,27 @@ spec:
     spec:
       containers:
       - image: "{{ .Values.repository.cart_dynamodb.image }}:{{ .Values.repository.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: dynamodb
         ports:
         - containerPort: 8000
           name: dynamodb
           protocol: TCP
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 128m
+            memory: 512Mi
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+      securityContext:
+        fsGroup: 1000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -619,7 +632,7 @@ spec:
         - configMapRef:
             name: catalog
         image: {{ .Values.repository.catalog.image }}:{{ .Values.repository.tag }}
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /health
@@ -705,12 +718,27 @@ spec:
               key: name
               name: catalog-db
         image: "{{ .Values.repository.catalog_mysql.image }}:{{ .Values.repository.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: mysql
         ports:
         - containerPort: 3306
           name: mysql
           protocol: TCP
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 128m
+            memory: 512Mi
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+      securityContext:
+        fsGroup: 1000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -744,7 +772,7 @@ spec:
         - configMapRef:
             name: checkout
         image: "{{ .Values.repository.checkout.image }}:{{ .Values.repository.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /health
@@ -806,12 +834,27 @@ spec:
     spec:
       containers:
       - image: "{{ .Values.repository.checkout_redis.image }}:{{ .Values.repository.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: redis
         ports:
         - containerPort: 6379
           name: redis
           protocol: TCP
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 128m
+            memory: 512Mi
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+      securityContext:
+        fsGroup: 1000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -877,7 +920,7 @@ spec:
         - configMapRef:
             name: orders
         image: "{{ .Values.repository.orders.image }}:{{ .Values.repository.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
@@ -958,12 +1001,27 @@ spec:
               key: name
               name: orders-db
         image: "{{ .Values.repository.orders_mysql.image }}:{{ .Values.repository.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: mysql
         ports:
         - containerPort: 3306
           name: mysql
           protocol: TCP
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 128m
+            memory: 512Mi
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+      securityContext:
+        fsGroup: 1000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -986,7 +1044,7 @@ spec:
     spec:
       containers:
       - image: "{{ .Values.repository.orders_rabbitmq.image }}:{{ .Values.repository.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: rabbitmq
         ports:
         - containerPort: 5672
@@ -995,6 +1053,21 @@ spec:
         - containerPort: 15672
           name: http
           protocol: TCP
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 128m
+            memory: 512Mi
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+      securityContext:
+        fsGroup: 1000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1031,7 +1104,7 @@ spec:
         - configMapRef:
             name: ui
         image: "{{ .Values.repository.ui.image }}:{{ .Values.repository.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
