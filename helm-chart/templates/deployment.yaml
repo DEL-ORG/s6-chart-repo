@@ -730,15 +730,15 @@ spec:
           requests:
             cpu: 128m
             memory: 512Mi
-        securityContext:
-          capabilities:
-            drop:
-            - ALL
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          runAsUser: 1000
-      securityContext:
-        fsGroup: 1000
+      #   securityContext:
+      #     capabilities:
+      #       drop:
+      #       - ALL
+      #     readOnlyRootFilesystem: true
+      #     runAsNonRoot: true
+      #     runAsUser: 1000
+      # securityContext:
+      #   fsGroup: 1000
 ---
 apiVersion: apps/v1
 kind: Deployment
