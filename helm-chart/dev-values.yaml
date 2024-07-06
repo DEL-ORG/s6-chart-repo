@@ -1,35 +1,35 @@
 repository:
-  tag: 49
+  tag: 12
   assets:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/asset
+   image: devopseasylearning/asset
 
   carts:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/carts
+   image: devopseasylearning/carts
 
   cart_dynamodb:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/carts-db
+   image: devopseasylearning/carts-db
  
   catalog:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/catalog
+   image: devopseasylearning/catalog
 
  
   catalog_mysql:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/catalog-db
+   image: devopseasylearning/catalog-db
 
   checkout:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/checkout
+   image: devopseasylearning/checkout
 
   checkout_redis:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/checkout-db
+   image: devopseasylearning/checkout-db
 
   orders:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/orders
+   image: devopseasylearning/orders
 
   orders_mysql:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/orders-db
+   image: devopseasylearning/orders-db
 
   orders_rabbitmq:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/asset-db
+   image: devopseasylearning/asset-db
 
   ui:
-   image: 637423375996.dkr.ecr.us-east-1.amazonaws.com/ui
+   image: devopseasylearning/ui
