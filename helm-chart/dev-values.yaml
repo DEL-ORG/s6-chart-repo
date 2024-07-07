@@ -1,5 +1,5 @@
 repository:
-  tag: 16
+  tag: 17
   assets:
    image: devopseasylearning/asset
 
@@ -24,6 +24,7 @@ repository:
 
   orders:
    image: devopseasylearning/orders
+
 
   orders_mysql:
    image: devopseasylearning/orders-db
